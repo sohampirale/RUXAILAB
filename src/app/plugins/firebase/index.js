@@ -21,7 +21,8 @@ const auth = getAuth(firebaseApp)
 const db = getFirestore(firebaseApp)
 const analytics = getAnalytics(firebaseApp)
 const fbFunctions = getFunctions(firebaseApp)
-const storage = getStorage(firebaseApp, `gs://${firebaseConfig.storageBucket}`)
+// const storage = getStorage(firebaseApp, `gs://${firebaseConfig.storageBucket}`)
+const storage = getStorage(firebaseApp)
 const database = getDatabase(firebaseApp, firebaseConfig.databaseURL)
 
 if (process.env.VUE_APP_USE_EMULATORS === 'true') {
