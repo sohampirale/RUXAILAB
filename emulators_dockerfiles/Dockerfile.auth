@@ -9,9 +9,6 @@ RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
 # Install the Firebase CLI
 RUN npm install -g firebase-tools
 
-# Setup the Auth emulator
-RUN firebase setup:emulators:auth
-
 # Create app directory
 WORKDIR /app
 

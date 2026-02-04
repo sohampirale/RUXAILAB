@@ -30,3 +30,8 @@ This directory contains Dockerfiles for individual Firebase emulators that can b
 5. Add any required environment variables
 
 Note: For multi-port services, you may need to use a reverse proxy or deploy each emulator separately.
+
+## Technical Notes
+
+- Authentication and Functions emulators don't require separate setup commands
+- Firestore and Storage emulators require setup commands (`firebase setup:emulators:firestore`, `firebase setup:emulators:storage`)
