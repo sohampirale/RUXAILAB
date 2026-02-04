@@ -1,0 +1,29 @@
+# Dockerfile for Firebase Functions Emulator
+FROM eclipse-temurin:11-jdk
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install the Firebase CLI
+RUN npm install -g firebase-tools
+
+# Setup the Functions emulator
+RUN firebase setup:emulators:functions
+
+# Create app directory
+WORKDIR /app
+
+# Copy configuration files
+COPY firebase.json /app/
+COPY functions /app/functions/
+
+# Expose the Functions emulator port (from your firebase.json)
+EXPOSE 9093
+
+# Set environment variable for port (Render compatibility)
+ENV PORT=9093
+
+# Start the Functions emulator
+CMD ["firebase", "emulators:start", "--only", "functions", "--project", "ruxailab-dev"]

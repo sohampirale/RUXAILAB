@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  firebase-auth:
+    build:
+      dockerfile: ./emulators_dockerfiles/Dockerfile.auth
+    ports:
+      - "9092:9092"
+    volumes:
+      - ./firebase.json:/app/firebase.json
+    environment:
+      - PORT=9092
+
+  firebase-functions:
+    build:
+      dockerfile: ./emulators_dockerfiles/Dockerfile.functions
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./firebase.json:/app/firebase.json
+      - ./functions:/app/functions
+    environment:
+      - PORT=9093
+
+  firebase-firestore:
+    build:
+      dockerfile: ./emulators_dockerfiles/Dockerfile.firestore
+    ports:
+      - "9091:9091"
+    volumes:
+      - ./firebase.json:/app/firebase.json
+      - ./firestore.rules:/app/firestore.rules
+      - ./firestore.indexes.json:/app/firestore.indexes.json
+    environment:
+      - PORT=9091
+
+  firebase-storage:
+    build:
+      dockerfile: ./emulators_dockerfiles/Dockerfile.storage
+    ports:
+      - "9094:9094"
+    volumes:
+      - ./firebase.json:/app/firebase.json
+      - ./storage.rules:/app/storage.rules
+    environment:
+      - PORT=9094

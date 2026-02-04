@@ -1,0 +1,30 @@
+# Dockerfile for Firebase Firestore Emulator
+FROM eclipse-temurin:11-jdk
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install the Firebase CLI
+RUN npm install -g firebase-tools
+
+# Setup the Firestore emulator
+RUN firebase setup:emulators:firestore
+
+# Create app directory
+WORKDIR /app
+
+# Copy configuration files
+COPY firebase.json /app/
+COPY firestore.rules /app/
+COPY firestore.indexes.json /app/
+
+# Expose the Firestore emulator port (from your firebase.json)
+EXPOSE 9091
+
+# Set environment variable for port (Render compatibility)
+ENV PORT=9091
+
+# Start the Firestore emulator
+CMD ["firebase", "emulators:start", "--only", "firestore", "--project", "ruxailab-dev"]

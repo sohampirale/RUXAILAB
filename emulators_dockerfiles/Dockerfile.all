@@ -1,0 +1,37 @@
+# Dockerfile for Firebase All Emulators
+FROM eclipse-temurin:11-jdk
+
+# Install Node.js
+RUN curl -sL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs && \
+    rm -rf /var/lib/apt/lists/*
+
+# Install the Firebase CLI
+RUN npm install -g firebase-tools
+
+# Setup all required emulators
+RUN firebase setup:emulators:auth
+RUN firebase setup:emulators:functions
+RUN firebase setup:emulators:firestore
+RUN firebase setup:emulators:storage
+RUN firebase setup:emulators:ui
+
+# Create app directory
+WORKDIR /app
+
+# Copy configuration files
+COPY firebase.json /app/
+COPY firestore.rules /app/
+COPY firestore.indexes.json /app/
+COPY storage.rules /app/
+COPY functions /app/functions/
+
+# Expose all emulator ports (from your firebase.json)
+EXPOSE 9091 9092 9093 9094
+
+# Set environment variable for port (Render compatibility)
+# For multi-port services on Render, you typically expose the primary port
+ENV PORT=9091
+
+# Start all emulators
+CMD ["firebase", "emulators:start", "--only", "auth,functions,firestore,storage", "--project", "ruxailab-dev"]
