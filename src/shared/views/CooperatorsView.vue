@@ -82,6 +82,40 @@
       :is-drawer-open="drawerOpen"
       :set-drawer-open="(val) => (drawerOpen = val)"
     />
+
+    <v-dialog v-model="confirmDialog" width="600" persistent>
+      <v-card>
+        <v-card-title class="text-h5 bg-warning text-white" primary-title>
+          {{ confirmDialogTitle }}
+        </v-card-title>
+
+        <v-card-text class="py-4">
+          {{ confirmDialogMessage }}
+        </v-card-text>
+
+        <v-divider />
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            class="bg-grey-lighten-3"
+            variant="text"
+            @click="cancelConfirmation"
+          >
+            {{ $t('buttons.cancel') }}
+          </v-btn>
+
+          <v-btn
+            :color="confirmDialogType"
+            variant="text"
+            @click="executeConfirmedAction"
+          >
+            {{ confirmDialogActionText }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </PageWrapper>
 </template>
 
