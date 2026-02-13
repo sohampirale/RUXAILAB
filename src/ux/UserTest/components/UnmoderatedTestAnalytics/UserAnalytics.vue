@@ -632,7 +632,11 @@ const filteredSessions = computed(() => {
         (Array.isArray(sel) && (sel.length === 0 || sel.includes(ALL_VALUE)))
       )
         return true
-      const ans = session.preTestAnswer?.[def.index]?.answer || ''
+      const ans =
+        def?.type == 'pre'
+          ? session.preTestAnswer?.[parseInt(def.index.split('_')[1])]?.answer
+          : session.postTestAnswer?.[parseInt(def.index.split('_')[1])]?.answer
+
       if (def.isCategorical) {
         return Array.isArray(sel) ? sel.includes(ans) : true
       } else {
